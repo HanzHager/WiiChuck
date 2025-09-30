@@ -6,6 +6,7 @@ Accessory::Accessory(TwoWire& wire) : myWire(wire) {
 }
 
 bool Accessory::isConnected() {
+	switchMultiplexer();
 	myWire.beginTransmission(WII_I2C_ADDR);
 	return (myWire.endTransmission() == 0);
 }
@@ -102,7 +103,7 @@ void Accessory::addMultiplexer(uint8_t iic, uint8_t sw) {
 void Accessory::switchMultiplexer() {
 	if (_multiplexI2C == 0)
 		return; // No multiplexer set
-	sendMultiSwitch(_multiplexI2C, _multiplexSwitch);
+	sendMultiSwitch(_multiplexI2C, _multiplexSwitch, myWire);
 }
 
 void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw, TwoWire& wire) {
